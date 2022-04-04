@@ -15,8 +15,8 @@ router.post('/', function (req, res) {
   let date_of_creation = new Date();
   connector.query(
     "SELECT username FROM validate where username = '" +
-      req.body.username +
-      "'",
+    req.body.username +
+    "'",
     function (err, result, field) {
       if (result.length === 0) {
         const sql = `INSERT INTO validate VALUES (?,?,?, ?)`;
@@ -39,10 +39,10 @@ router.post('/checklogin/:username/:password', function (req, res) {
   let password = req.params.password;
   connector.query(
     "SELECT * FROM validate where username = '" +
-      username +
-      "' AND password = '" +
-      password +
-      "'",
+    username +
+    "' AND password = '" +
+    password +
+    "'",
     function (err, result, field) {
       if (result.length === 0) {
         req.session.isLoggedIn = 0;
@@ -82,32 +82,6 @@ router.get('/', function (req, res) {
     } else {
       res.json({ results });
     }
-  });
-});
-
-router.put('/:id', (req, res) => {
-  const { username, password, date_of_creation } = req.body;
-  const sql = `update validate set username=?, password=?, date_of_creation=? where id="${req.params.id}";`;
-  connector.query(
-    sql,
-    [username, password, date_of_creation],
-    (error, result) => {
-      res.json({ error, result });
-    }
-  );
-});
-
-router.delete('/:id', (req, res) => {
-  const sql = `delete from validate where id="${req.params.id}";`;
-  connector.query(sql, (error, result) => {
-    res.json({ error, result });
-  });
-});
-
-router.delete('/deleteall/all', (req, res) => {
-  const sql = 'truncate table validate';
-  connector.query(sql, (error, result) => {
-    res.json({ error, result });
   });
 });
 router.get('/destroy', function (req, res) {
